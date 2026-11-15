@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "astra.envelope.v1",
+  "title": "ASTRA Link Envelope (used for ALL spacecraft <-> Ground traffic)",
+  "type": "object",
+  "required": ["schema", "msg_id", "direction", "type", "priority", "created_ts", "payload", "node_id", "sig"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "astra.envelope.v1" },
+    "msg_id": { "type": "string" },
+    "direction": { "type": "string", "enum": ["uplink", "downlink"] },
+    "type": {
+      "type": "string",
+      "enum": ["summary", "alert", "security_event", "exposure_record", "config_bundle", "history_bundle"]
+    },
+    "priority": { "type": "integer", "minimum": 1, "maximum": 4 },
+    "created_ts": { "type": "string", "format": "date-time" },
+    "payload": { "type": "object" },
+    "node_id": { "type": "string", "enum": ["hub-01", "ground-01"] },
+    "sig": { "type": "string" }
+  }
+}

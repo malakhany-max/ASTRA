@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "astra.consent.v1",
+  "title": "ASTRA Consent",
+  "type": "object",
+  "required": ["astronaut_id", "tiers", "emergency_override"],
+  "additionalProperties": false,
+  "properties": {
+    "astronaut_id": { "type": "string" },
+    "tiers": {
+      "type": "object",
+      "required": ["vitals_summary", "psych_summary", "raw_audio", "exposure_records"],
+      "additionalProperties": false,
+      "properties": {
+        "vitals_summary": { "type": "boolean" },
+        "psych_summary": { "type": "boolean" },
+        "raw_audio": { "type": "boolean" },
+        "exposure_records": { "type": "boolean" }
+      }
+    },
+    "emergency_override": { "type": "boolean" }
+  }
+}

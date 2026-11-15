@@ -1,0 +1,50 @@
+{
+  "name": "astra",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Astra - crew health, safety and psychology console for deep-space missions.",
+  "workspaces": [
+    "frontend/packages/contracts",
+    "frontend/packages/shared",
+    "frontend/web-astronaut",
+    "frontend/web-ground"
+  ],
+  "scripts": {
+    "dev:astronaut": "npm run dev -w web-astronaut",
+    "dev:ground": "npm run dev -w web-ground",
+    "build": "npm run build -w web-astronaut && npm run build -w web-ground",
+    "build:astronaut": "npm run build -w web-astronaut",
+    "build:ground": "npm run build -w web-ground",
+    "test": "npm run test -w @astra/shared",
+    "typecheck": "npm run typecheck -w @astra/contracts && npm run typecheck -w @astra/shared && npm run typecheck -w web-astronaut && npm run typecheck -w web-ground",
+    "generate:types": "npm run generate -w @astra/contracts",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.1.0",
+    "@fontsource/space-grotesk": "^5.1.0",
+    "lucide-react": "^0.454.0",
+    "msw": "^2.6.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.5",
+    "recharts": "^2.13.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.2",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^5.2.0",
+    "jsdom": "^25.0.1",
+    "json-schema-to-typescript": "^15.0.2",
+    "typescript": "^5.6.3",
+    "vite": "^6.4.6",
+    "vitest": "^5.1.0"
+  }
+}

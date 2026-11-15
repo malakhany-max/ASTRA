@@ -1,0 +1,12 @@
+# ASTRA Companion - port allocation (SHARED config, source of truth).
+# Read-only for modules. Do not change without telling the team.
+ports:
+  hub: 8000            # Onboard Hub API (FastAPI)
+  ground-backend: 8100 # Ground Station API
+  companion: 8200      # Companion service (voice)
+  link-sim: 8300       # Link Simulator (spacecraft <-> Ground Station)
+  web-astronaut: 5173  # Astronaut App (Vite)
+  web-ground: 5174     # Ground Station Dashboard (Vite)
+
+hosts:
+  loopback: 127.0.0.1  # Everything is local/offline by design.

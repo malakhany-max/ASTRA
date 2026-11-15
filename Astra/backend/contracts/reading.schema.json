@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "astra.reading.v1",
+  "title": "ASTRA Reading",
+  "type": "object",
+  "required": ["schema", "device_id", "astronaut_id", "metric", "value", "unit", "ts", "seq", "nonce", "source", "quality", "sig"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "astra.reading.v1" },
+    "device_id": { "type": "string", "minLength": 1 },
+    "astronaut_id": { "type": "string", "minLength": 1 },
+    "metric": {
+      "type": "string",
+      "enum": [
+        "heart_rate", "hrv_rmssd", "spo2", "skin_temp", "sleep_duration",
+        "activity_level", "bp_systolic", "bp_diastolic", "blood_glucose",
+        "dizziness_self_report", "mood",
+        "dose_rate", "cumulative_dose", "neutron_dose_rate"
+      ]
+    },
+    "value": { "type": "number" },
+    "unit": { "type": "string" },
+    "ts": { "type": "string", "format": "date-time" },
+    "seq": { "type": "integer", "minimum": 0 },
+    "nonce": { "type": "string", "pattern": "^[0-9a-f]{32}$" },
+    "source": {
+      "type": "string",
+      "enum": ["wearable", "clinical_device", "manual", "dosimeter", "area_monitor", "self_report"]
+    },
+    "quality": { "type": "number", "minimum": 0, "maximum": 1 },
+    "sig": { "type": "string", "minLength": 1 }
+  }
+}

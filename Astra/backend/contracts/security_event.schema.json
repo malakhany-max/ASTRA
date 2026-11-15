@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "astra.security_event.v1",
+  "title": "ASTRA Security Event",
+  "description": "Contains NO raw health data. Only hashes and metadata.",
+  "type": "object",
+  "required": ["schema", "event_id", "event_type", "device_id", "astronaut_id", "time_window", "severity", "evidence_hash", "count", "sig"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "astra.security_event.v1" },
+    "event_id": { "type": "string" },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "forged_signature", "replay", "unpaired_device", "implausible_value",
+        "sensor_fault_suspected", "dosimeter_mismatch", "clock_anomaly", "tampered_message"
+      ]
+    },
+    "device_id": { "type": "string" },
+    "astronaut_id": { "type": "string" },
+    "time_window": { "type": "array", "items": { "type": "string", "format": "date-time" }, "minItems": 2, "maxItems": 2 },
+    "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+    "evidence_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "count": { "type": "integer", "minimum": 1 },
+    "sig": { "type": "string" }
+  }
+}

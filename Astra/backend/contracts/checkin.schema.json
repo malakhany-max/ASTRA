@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "astra.checkin.v1",
+  "title": "ASTRA Check-in (stored as self_report readings by the hub)",
+  "type": "object",
+  "required": ["astronaut_id", "ts", "mood", "energy", "dizziness", "workload", "symptoms", "notes"],
+  "additionalProperties": false,
+  "properties": {
+    "astronaut_id": { "type": "string" },
+    "ts": { "type": "string", "format": "date-time" },
+    "mood": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "energy": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "dizziness": { "type": "integer", "minimum": 0, "maximum": 3 },
+    "workload": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "symptoms": { "type": "array", "items": { "type": "string" } },
+    "notes": { "type": "string" }
+  }
+}

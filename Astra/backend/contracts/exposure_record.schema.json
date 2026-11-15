@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "astra.exposure_record.v1",
+  "title": "ASTRA Exposure Record",
+  "type": "object",
+  "required": ["schema", "event_id", "astronaut_id", "start_ts", "end_ts", "peak_dose_rate", "cumulative_dose", "location", "shielding", "sensor_integrity", "followup_window_hours", "symptom_checkins", "escalation_level", "sig"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "astra.exposure_record.v1" },
+    "event_id": { "type": "string" },
+    "astronaut_id": { "type": "string" },
+    "start_ts": { "type": "string", "format": "date-time" },
+    "end_ts": { "type": "string", "format": "date-time" },
+    "peak_dose_rate": {
+      "type": "object",
+      "required": ["value", "unit"],
+      "properties": { "value": { "type": "number" }, "unit": { "type": "string" } }
+    },
+    "cumulative_dose": {
+      "type": "object",
+      "required": ["value", "unit"],
+      "properties": { "value": { "type": "number" }, "unit": { "type": "string" } }
+    },
+    "location": { "type": "string" },
+    "shielding": { "type": "string", "enum": ["shelter_active", "none"] },
+    "sensor_integrity": { "type": "string", "enum": ["trusted", "degraded", "untrusted"] },
+    "followup_window_hours": { "type": "integer" },
+    "symptom_checkins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ts", "symptoms", "severity"],
+        "properties": {
+          "ts": { "type": "string", "format": "date-time" },
+          "symptoms": { "type": "array", "items": { "type": "string" } },
+          "severity": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "escalation_level": { "type": "integer", "enum": [1, 2, 3] },
+    "sig": { "type": "string" }
+  }
+}

@@ -1,0 +1,690 @@
+{
+  "schema": "astra.companion_content.v1",
+  "source": "Original ASTRA demo wording; no NASA or medical protocol text is reproduced.",
+  "checkin": {
+    "source": "Original wording inspired by supportive check-in practice; not a validated questionnaire.",
+    "questions": [
+      {
+        "id": "sleep",
+        "prompt": "How did sleep go since we last checked in? You can answer in your own words."
+      },
+      {
+        "id": "mood",
+        "prompt": "On a scale from 1 to 5, how would you rate your mood right now?"
+      },
+      {
+        "id": "energy",
+        "prompt": "How is your energy today? You can answer in your own words."
+      },
+      {
+        "id": "dizziness",
+        "prompt": "Have you felt dizzy? If so, choose 0 to 3, where 0 means not at all."
+      },
+      {
+        "id": "workload",
+        "prompt": "How would you describe your workload today?"
+      },
+      {
+        "id": "open",
+        "prompt": "Is there anything else you would like me to note? You can skip this."
+      }
+    ]
+  },
+  "weekly_wellbeing": {
+    "source": "Original wording inspired by wellbeing check-ins; not WHO-5 wording and not a validated scale.",
+    "label": "Weekly wellbeing reflection (original, non-validated)",
+    "questions": [
+      "Over the past week, how often did you feel at ease?",
+      "How often did you have enough energy for the things you needed to do?",
+      "How often did you feel able to enjoy a moment in your day?",
+      "How often did you feel connected to someone on the crew?",
+      "What would make the coming week feel more manageable?"
+    ]
+  },
+  "alert_explanation": {
+    "source": "Original ASTRA demo wording.",
+    "template": "Here is what your latest readings show: {reasons} This is a pattern worth review, not a diagnosis. How are you feeling?"
+  },
+  "crisis": {
+    "source": "Original supportive safety script; deterministic trigger, not a clinical assessment.",
+    "script": "I am glad you told me. You deserve support right now. If it feels safe, please tell a crewmate and contact the flight psychologist. I can send a support request to the flight psychologist now."
+  },
+  "radiation": {
+    "source": "Original ASTRA demo wording for a shelter reminder; not a radiation protection protocol.",
+    "shelter_prompt": "Move to the shielded sleep station if the flight team calls for shelter. Take the personal dosimeter with you, close the hatch, and wait for the flight team's all-clear before leaving shelter.",
+    "post_exposure_questions": [
+      "Have you noticed nausea?",
+      "Have you vomited?",
+      "Have you noticed a headache?",
+      "Have you felt unusually fatigued?",
+      "Have you felt dizzy?",
+      "Has your appetite changed?",
+      "Have you noticed any skin changes?"
+    ],
+    "severity_prompt": "For each symptom, record a self-reported severity from 0 to 3.",
+    "disclaimer": "Radiation exposure is measured by dosimeters. Symptoms and other readings do not establish radiation exposure or its cause."
+  },
+  "breathing": [
+    {
+      "id": "longer-exhale",
+      "name": "Easy longer exhale",
+      "purpose": "Relaxation support after a demanding moment",
+      "cycle_seconds": {
+        "inhale": 3,
+        "exhale": 4,
+        "hold": 0
+      },
+      "duration_options_min": [
+        1,
+        3,
+        5
+      ],
+      "spoken_cues": [
+        "Let the breath arrive gently.",
+        "Breathe out a little more slowly, without forcing it."
+      ],
+      "safety_notes": [
+        "Relaxation support, not treatment.",
+        "Keep the breath comfortable; do not force depth or pace.",
+        "Stop if you feel lightheaded or uncomfortable."
+      ],
+      "source": "Original ASTRA relaxation content; paced-breath timing is a demo choice, not a medical protocol."
+    },
+    {
+      "id": "steady-breath",
+      "name": "Steady comfortable breathing",
+      "purpose": "A brief reset or sleep wind-down",
+      "cycle_seconds": {
+        "inhale": 3,
+        "exhale": 3,
+        "hold": 0
+      },
+      "duration_options_min": [
+        1,
+        3,
+        5
+      ],
+      "spoken_cues": [
+        "Find a comfortable, unforced rhythm.",
+        "Let your shoulders soften as you breathe out."
+      ],
+      "safety_notes": [
+        "Relaxation support, not treatment.",
+        "Stop if you feel lightheaded or uncomfortable."
+      ],
+      "source": "Original ASTRA relaxation content; paced-breath timing is a demo choice, not a medical protocol."
+    },
+    {
+      "id": "gentle-grounding",
+      "name": "Gentle grounding (no paced breathing)",
+      "purpose": "A non-breath-focused alternative when pacing is not a good fit",
+      "cycle_seconds": {
+        "inhale": 0,
+        "exhale": 0,
+        "hold": 0
+      },
+      "duration_options_min": [
+        1,
+        3,
+        5
+      ],
+      "spoken_cues": [
+        "Let your breathing happen naturally.",
+        "Notice one thing you can see, one sound, and the support beneath you."
+      ],
+      "safety_notes": [
+        "Relaxation support, not treatment.",
+        "Do not change your breathing for this exercise.",
+        "Stop if you feel lightheaded or uncomfortable."
+      ],
+      "source": "Original ASTRA relaxation content; non-clinical grounding exercise."
+    }
+  ],
+  "plan_content": {
+    "source": "Original demo content for Member 2's adapter; review against mission and medical guidance before operational use.",
+    "exercise": [
+      {
+        "title": "Crew-approved movement option",
+        "notes": "Short, comfortable movement while the mission schedule allows; stop if anything hurts."
+      }
+    ],
+    "nutrition": [
+      {
+        "title": "Routine nutrition check-in",
+        "notes": "Regular meals and water across the day; note any change in appetite."
+      }
+    ],
+    "sleep": [
+      {
+        "title": "Protect a consistent rest opportunity where mission tasks allow",
+        "notes": "General supportive wording; not a treatment recommendation."
+      }
+    ],
+    "wellbeing": [
+      {
+        "title": "Consider a brief check-in with a crewmate",
+        "notes": "Optional supportive-care prompt; not therapy."
+      }
+    ]
+  },
+  "support": {
+    "source": "Original ASTRA supportive wording; general comfort ideas, not medical advice and not a diagnosis.",
+    "topics": [
+      {
+        "id": "breathing",
+        "label": "breathing discomfort",
+        "notify": true,
+        "severity": "urgent",
+        "technique": "gentle-grounding",
+        "patterns": [
+          "short of breath",
+          "breathless",
+          "hard to breathe",
+          "can't breathe",
+          "cannot breathe",
+          "tight chest",
+          "chest tightness",
+          "chest pain"
+        ],
+        "advice": [
+          "Stop what you are doing and sit down.",
+          "Tell the nearest crewmate right now and keep still until they reach you."
+        ],
+        "replies": [
+          "Chest or breathing discomfort should not be pushed through. {advice} I am not able to diagnose it.",
+          "This sounds important to act on early. {advice} Stay with someone if you can.",
+          "Let us treat breathing changes with care. {advice} I can share this with the flight medical team."
+        ]
+      },
+      {
+        "id": "dizziness",
+        "label": "dizziness",
+        "notify": true,
+        "severity": "attention",
+        "technique": "gentle-grounding",
+        "patterns": [
+          "dizzy",
+          "dizziness",
+          "lightheaded",
+          "light-headed",
+          "vertigo",
+          "woozy",
+          "faint"
+        ],
+        "advice": [
+          "Sit or lie down for a minute before you stand again.",
+          "Sip some water and tell a crewmate nearby how you feel."
+        ],
+        "replies": [
+          "Dizziness is worth taking slowly. {advice} This is comfort support, not a diagnosis.",
+          "Thanks for telling me. Let us keep you steady first: {advice}",
+          "Standing up can feel rough when you are dizzy. {advice} If it gets worse, stay where someone can see you."
+        ]
+      },
+      {
+        "id": "headache",
+        "label": "headache",
+        "notify": true,
+        "severity": "attention",
+        "technique": "gentle-grounding",
+        "patterns": [
+          "headache",
+          "migraine",
+          "head hurts",
+          "head pain"
+        ],
+        "advice": [
+          "Dim the lights where you can and rest your eyes for a few minutes.",
+          "Drink water and loosen anything tight around your head or neck."
+        ],
+        "replies": [
+          "Headaches are uncomfortable to work through. {advice} I cannot tell what is causing it.",
+          "Thanks for flagging that. {advice} If it is getting stronger, let a crewmate know.",
+          "Let us ease the load a little: {advice} This is support, not a diagnosis."
+        ]
+      },
+      {
+        "id": "nausea",
+        "label": "nausea",
+        "notify": true,
+        "severity": "attention",
+        "technique": "gentle-grounding",
+        "patterns": [
+          "nausea",
+          "nauseous",
+          "vomit",
+          "throwing up",
+          "sick to my stomach",
+          "stomach ache",
+          "stomachache"
+        ],
+        "advice": [
+          "Sip water slowly and avoid a heavy meal for now.",
+          "Stay upright and tell a crewmate if it keeps going."
+        ],
+        "replies": [
+          "Nausea can make everything harder. {advice} I am not able to diagnose the cause.",
+          "Thanks for saying it plainly. {advice} Keep a crewmate nearby if you can.",
+          "Let us keep you comfortable: {advice} If it repeats, it is worth a medical look."
+        ]
+      },
+      {
+        "id": "fever",
+        "label": "feeling hot or chilled",
+        "notify": true,
+        "severity": "attention",
+        "technique": "gentle-grounding",
+        "patterns": [
+          "fever",
+          "chills",
+          "hot and cold",
+          "shivering",
+          "temperature"
+        ],
+        "advice": [
+          "Check your temperature if a thermometer is nearby.",
+          "Rest and drink water, and tell a crewmate how you feel."
+        ],
+        "replies": [
+          "Feeling hot or chilled is worth watching. {advice} This is not a diagnosis.",
+          "Thanks for telling me. {advice} If it gets worse, say so early.",
+          "Let us keep this simple: {advice} I can pass the note to the medical team."
+        ]
+      },
+      {
+        "id": "fatigue",
+        "label": "low energy",
+        "notify": true,
+        "severity": "attention",
+        "technique": "steady-breath",
+        "patterns": [
+          "tired",
+          "exhausted",
+          "fatigue",
+          "no energy",
+          "drained",
+          "weak",
+          "worn out"
+        ],
+        "advice": [
+          "Take the shortest rest your schedule allows and drink water.",
+          "Pick one task to postpone and tell a crewmate you are low on energy."
+        ],
+        "replies": [
+          "Low energy deserves a gentler pace. {advice} This is support, not a diagnosis.",
+          "Thanks for being honest about it. {advice}",
+          "Let us protect a little energy today: {advice} If it persists, the medical team should hear about it."
+        ]
+      },
+      {
+        "id": "sleep",
+        "label": "sleep trouble",
+        "notify": true,
+        "severity": "attention",
+        "technique": "steady-breath",
+        "patterns": [
+          "can't sleep",
+          "cannot sleep",
+          "cant sleep",
+          "insomnia",
+          "restless night",
+          "woke up",
+          "sleep"
+        ],
+        "advice": [
+          "Dim the lights and keep the last hour quiet where the schedule allows.",
+          "Try a few slow, comfortable breaths with a longer exhale."
+        ],
+        "replies": [
+          "Short sleep makes everything heavier. {advice} This is comfort support, not a diagnosis.",
+          "Thanks for telling me about your sleep. {advice}",
+          "Let us wind down instead of forcing sleep: {advice} If this repeats, it is worth mentioning to the medical team."
+        ]
+      },
+      {
+        "id": "stress",
+        "label": "stress",
+        "notify": true,
+        "severity": "attention",
+        "technique": "longer-exhale",
+        "patterns": [
+          "stress",
+          "stressed",
+          "anxious",
+          "anxiety",
+          "tense",
+          "overwhelmed",
+          "panic",
+          "nervous",
+          "cannot settle"
+        ],
+        "advice": [
+          "Name one thing that can wait until later.",
+          "Try a slow exhale that is longer than the inhale, without forcing it."
+        ],
+        "replies": [
+          "That sounds like a lot to carry. {advice} This is support, not therapy.",
+          "Thanks for putting it into words. {advice}",
+          "Let us lower the load a little: {advice} A crewmate or the flight psychologist can also hear this."
+        ]
+      },
+      {
+        "id": "lowmood",
+        "label": "low mood",
+        "notify": true,
+        "severity": "attention",
+        "technique": "gentle-grounding",
+        "patterns": [
+          "sad",
+          "feeling low",
+          "lonely",
+          "hopeless",
+          "crying",
+          "miserable",
+          "empty",
+          "down"
+        ],
+        "advice": [
+          "Tell one crewmate how today actually feels.",
+          "Choose one small comfort: water, food, or a quiet minute."
+        ],
+        "replies": [
+          "Thank you for trusting me with that. {advice} This is support, not a diagnosis.",
+          "That sounds heavy to hold alone. {advice}",
+          "I am glad you said it. {advice} The flight psychologist can also talk with you if you want."
+        ]
+      },
+      {
+        "id": "pain",
+        "label": "pain",
+        "notify": true,
+        "severity": "attention",
+        "technique": "gentle-grounding",
+        "patterns": [
+          "pain",
+          "ache",
+          "aching",
+          "sore",
+          "cramp",
+          "hurts"
+        ],
+        "advice": [
+          "Stop the movement that makes it worse and rest the area.",
+          "Tell a crewmate where it hurts and how long it has been there."
+        ],
+        "replies": [
+          "Pain is a signal to slow down. {advice} I cannot diagnose it.",
+          "Thanks for telling me. {advice} If it is sharp or getting worse, say so right away.",
+          "Let us protect the area first: {advice} The medical team can look at the note."
+        ]
+      },
+      {
+        "id": "vision",
+        "label": "vision change",
+        "notify": true,
+        "severity": "attention",
+        "technique": "gentle-grounding",
+        "patterns": [
+          "blurred vision",
+          "blurry",
+          "vision",
+          "my eyes",
+          "double vision"
+        ],
+        "advice": [
+          "Stop reading screens for a moment and look across the cabin.",
+          "Tell a crewmate if the change is sudden or only in one eye."
+        ],
+        "replies": [
+          "Vision changes deserve attention. {advice} This is not a diagnosis.",
+          "Thanks for flagging it. {advice} A sudden change should reach the medical team quickly.",
+          "Let us rest your eyes first: {advice} If it continues, stay where someone can check on you."
+        ]
+      },
+      {
+        "id": "appetite",
+        "label": "appetite change",
+        "notify": true,
+        "severity": "attention",
+        "technique": "gentle-grounding",
+        "patterns": [
+          "appetite",
+          "not hungry",
+          "no appetite",
+          "cannot eat",
+          "can't eat"
+        ],
+        "advice": [
+          "Try a small portion of something plain and sip water.",
+          "Note whether this started today or has been building."
+        ],
+        "replies": [
+          "A change in appetite is worth noting. {advice} This is support, not a diagnosis.",
+          "Thanks for telling me. {advice} If it lasts more than a day, the medical team should know.",
+          "Let us keep food simple instead of forcing it: {advice}"
+        ]
+      },
+      {
+        "id": "radiation",
+        "label": "radiation concern",
+        "notify": false,
+        "severity": "attention",
+        "technique": "steady-breath",
+        "patterns": [
+          "radiation",
+          "solar storm",
+          "dose",
+          "exposure"
+        ],
+        "advice": [
+          "Check the dosimeter reading and the flight team's current guidance.",
+          "If shelter is called, take the dosimeter with you and close the hatch."
+        ],
+        "replies": [
+          "That worry makes sense. {advice} Symptoms alone do not show radiation exposure.",
+          "The dosimeter is the source of truth here. {advice} I can walk you through the current status.",
+          "Let us look at the measured numbers instead of guessing: {advice}"
+        ]
+      }
+    ]
+  },
+  "ar": {
+    "source": "ترجمة عربية أصلية لنفس المحتوى الداعم؛ ليست نصاً طبياً معتمداً.",
+    "checkin": {
+      "intro": "أهلاً. هذا الفحص القصير اختياري، ويمكنك تخطي أي سؤال. ",
+      "questions": [
+        "كيف كان نومك منذ آخر مرة تحدثنا؟ يمكنك الإجابة بكلماتك.",
+        "من 1 إلى 5، كيف تقيّم حالتك النفسية الآن؟",
+        "كيف طاقتك اليوم؟ يمكنك الإجابة بكلماتك.",
+        "هل شعرت بدوخة؟ إن نعم اختر من 0 إلى 3، حيث 0 تعني لا شيء.",
+        "كيف تصف حجم عملك اليوم؟",
+        "هل هناك أي شيء آخر تريد أن أسجله؟ يمكنك تخطي هذا."
+      ],
+      "mood_error": "من فضلك أعطني رقماً من 1 إلى 5، أو قل تخطي.",
+      "dizziness_error": "من فضلك أعطني رقماً من 0 إلى 3، أو قل تخطي.",
+      "done": "شكراً لك على الفحص. الفحص جاهز ليُرسل من تطبيق الرائد.",
+      "notes_sleep": "النوم: ",
+      "notes_open": "؛ رد مفتوح: "
+    },
+    "weekly_wellbeing": {
+      "intro": "هذا تأمل أسبوعي أصلي وغير معتمد علمياً. ",
+      "questions": [
+        "خلال الأسبوع الماضي، كم مرة شعرت بالطمأنينة؟",
+        "كم مرة كان لديك طاقة كافية لما تحتاج فعله؟",
+        "كم مرة استطعت الاستمتاع بلحظة في يومك؟",
+        "كم مرة شعرت بقرب من أحد أفراد الطاقم؟",
+        "ما الذي سيجعل الأسبوع القادم أسهل؟"
+      ]
+    },
+    "alert_explanation": {
+      "template": "هذا ما تُظهره قراءاتك الأخيرة: {reasons} هذا نمط يستحق المراجعة وليس تشخيصاً. كيف تشعر الآن؟"
+    },
+    "crisis": {
+      "script": "شكراً لأنك أخبرتني. أنت تستحق الدعم الآن. إن كان ذلك آمناً، أخبر زميلاً في الطاقم وتواصل مع طبيب نفسي الطيران. يمكنني إرسال طلب دعم لطبيب نفسي الطيران الآن."
+    },
+    "radiation": {
+      "shelter_prompt": "انتقل إلى محطة النوم المحمية إذا طلب فريق الطيران الاحتماء. خذ مقياس الجرعة الشخصي معك، وأغلق الفتحة، وانتظر إشارة الأمان من فريق الطيران قبل الخروج من الملجأ.",
+      "post_exposure_questions": [
+        "هل لاحظت غثياناً؟",
+        "هل تقيأت؟",
+        "هل لاحظت صداعاً؟",
+        "هل شعرت بتعب غير معتاد؟",
+        "هل شعرت بدوخة؟",
+        "هل تغيّرت شهيتك؟",
+        "هل لاحظت أي تغيّر في جلدك؟"
+      ],
+      "severity_prompt": "لكل عرض، سجّل شدة تقييمك الذاتي من 0 إلى 3.",
+      "disclaimer": "التعرض للإشعاع يُقاس بمقاييس الجرعة. الأعراض والقراءات الأخرى لا تثبت التعرض للإشعاع ولا سببه."
+    },
+    "breathing": {
+      "gentle": "يمكننا تخطي التنفس المنتظم. إن شعرت بدوخة أو عدم راحة، توقف وأخبر زميلاً. هل يناسبك تمرين تأريض لطيف؟",
+      "offer": "هذا تمرين {name}. هذا دعم للاسترخاء وليس علاجاً. اجعله مريحاً وتوقف إن شعرت بدوخة أو عدم راحة.",
+      "names": {
+        "longer-exhale": "زفير أطول بلطف",
+        "steady-breath": "تنفس هادئ مريح",
+        "gentle-grounding": "تأريض لطيف بدون تنفس منتظم"
+      }
+    },
+    "fallback": [
+      "أنا هنا. أخبرني بما يثقل عليك أكثر، وأقترح خطوة صغيرة واحدة.",
+      "شكراً لأنك قلت ذلك. هل يفيدك فحص قصير أو تمرين تنفس أو شرح لحالتك؟",
+      "أسمعك. لنبقي الأمر بسيطاً: سؤال فحص واحد، تمرين تنفس، أو آخر حالة.",
+      "أنا أسمعك. إن كان هناك شيء جسدي يزعجك، اوصفه بكلماتك وأساعدك في خطة الخطوة التالية."
+    ],
+    "urgent_prefix": "أخبر زميلاً قريباً وابقَ حيث يراك أحد. ",
+    "notify_reason": "ملاحظة من المرافق: {label}",
+    "disclaimer_suffix": " أنا مرافق داعم، ولست معالجاً.",
+    "support": {
+      "breathing": {
+        "label": "ضيق في التنفس",
+        "patterns": ["ضيق نفس", "ضيق في التنفس", "مش قادر أتنفس", "مش قادر اتنفس", "صعوبة تنفس", "ألم صدر", "ألم في الصدر", "وجع في الصدر", "ضغط في صدري", "مخنوق"],
+        "advice": ["توقف عما تفعله واجلس على الفور.", "أخبر أقرب زميل الآن وابقَ ثابتاً حتى يصل إليك."],
+        "replies": [
+          "ضيق التنفس أو ألم الصدر لا يُجبَر على المتابعة. {advice} لا أستطيع تشخيصه.",
+          "هذا يستحق التصرف مبكراً. {advice} ابقَ مع أحد إن أمكن.",
+          "لنتعامل مع تغيّر التنفس بعناية. {advice} يمكنني مشاركة هذا مع الفريق الطبي."
+        ]
+      },
+      "dizziness": {
+        "label": "دوخة",
+        "patterns": ["دوخة", "دوخه", "دايخ", "دايخة", "دوار", "لخبطة", "هوقع", "أغمى", "اغمى"],
+        "advice": ["اجلس أو استلقِ دقيقة قبل أن تقف مرة أخرى.", "اشرب قليلاً من الماء وأخبر زميلاً قريباً بما تشعر."],
+        "replies": [
+          "الدوخة تستحق أن تتأنى بها. {advice} هذا دعم للراحة وليس تشخيصاً.",
+          "شكراً لأنك أخبرتني. لنحافظ على ثباتك أولاً: {advice}",
+          "الوقوف قد يكون صعباً عندما تكون دايخاً. {advice} إن زادت، ابقَ حيث يراك أحد."
+        ]
+      },
+      "headache": {
+        "label": "صداع",
+        "patterns": ["صداع", "راسي", "وجع راس", "ألم راس", "الم راس", "شقيقة", "شقيقه"],
+        "advice": ["خفّف الإضاءة إن أمكن وأرح عينيك دقائق.", "اشرب ماءً وخفف أي شيء ضيق حول رأسك أو رقبتك."],
+        "replies": [
+          "الصداع متعب في العمل. {advice} لا أستطيع تحديد سببه.",
+          "شكراً لملاحظتك. {advice} إن كان يزداد، أخبر زميلاً.",
+          "لنخفف الحمل قليلاً: {advice} هذا دعم وليس تشخيصاً."
+        ]
+      },
+      "nausea": {
+        "label": "غثيان",
+        "patterns": ["غثيان", "استفراغ", "أستفرغ", "استفرغ", "قرف", "معدتي وجعانة", "معدتي تعبانة", "مغص"],
+        "advice": ["ارتشف ماءً ببطء وتجنب وجبة دسمة الآن.", "ابقَ جالساً وأخبر زميلاً إن استمر."],
+        "replies": [
+          "الغثيان يجعل كل شيء أصعب. {advice} لا أستطيع تشخيص السبب.",
+          "شكراً لأنك قلت ذلك بوضوح. {advice} ابقَ قريباً من زميل إن أمكن.",
+          "لنحافظ على راحتك: {advice} إن تكرر، يستحق نظرة طبية."
+        ]
+      },
+      "fever": {
+        "label": "سخونة أو قشعريرة",
+        "patterns": ["حرارة", "سخونة", "سخونه", "قشعريرة", "قشعريره", "رجفة", "رعشة", "برد في جسمي"],
+        "advice": ["قِس حرارتك إن وُجد مقياس قريب.", "استرح واشرب ماءً وأخبر زميلاً بما تشعر."],
+        "replies": [
+          "الشعور بالحرارة أو البرودة يستحق المتابعة. {advice} هذا ليس تشخيصاً.",
+          "شكراً لأنك أخبرتني. {advice} إن ساءت الحالة، قل ذلك مبكراً.",
+          "لنبقي الأمر بسيطاً: {advice} يمكنني تمرير الملاحظة للفريق الطبي."
+        ]
+      },
+      "fatigue": {
+        "label": "طاقة منخفضة",
+        "patterns": ["تعبان", "تعبانة", "إرهاق", "ارهاق", "مجهود", "مفيش طاقة", "ضعف", "مرهق", "خارج من قوتي"],
+        "advice": ["خذ أقصر راحة يسمح بها جدولك واشرب ماءً.", "اختر مهمة واحدة تؤجلها وأخبر زميلاً أن طاقتك منخفضة."],
+        "replies": [
+          "الطاقة المنخفضة تستحق إيقاعاً أهدأ. {advice} هذا دعم وليس تشخيصاً.",
+          "شكراً لصدقك. {advice}",
+          "لنحمِ بعض الطاقة اليوم: {advice} إن استمر الأمر، يجب أن يعرفه الفريق الطبي."
+        ]
+      },
+      "sleep": {
+        "label": "مشكلة في النوم",
+        "patterns": ["مش بنام", "مش قادر أنام", "مش قادر انام", "أرق", "ارق", "سهر", "نوم متقطع", "مش نايم", "نوم"],
+        "advice": ["خفّف الإضاءة واجعل الساعة الأخيرة هادئة إن سمح الجدول.", "جرّب أنفاساً بطيئة مريحة مع زفير أطول."],
+        "replies": [
+          "قلة النوم تُثقل كل شيء. {advice} هذا دعم للراحة وليس تشخيصاً.",
+          "شكراً لأنك أخبرتني عن نومك. {advice}",
+          "لنهدأ بدلاً من إجبار النوم: {advice} إن تكرر، يستحق ذكره للفريق الطبي."
+        ]
+      },
+      "stress": {
+        "label": "توتر",
+        "patterns": ["توتر", "قلق", "مضغوط", "متوتر", "ذعر", "خوف", "متضايق", "مش قادر أهدى", "مش قادر اهدى", "بانيك"],
+        "advice": ["سمِّ شيئاً واحداً يمكن أن ينتظر لاحقاً.", "جرّب زفيراً بطيئاً أطول من الشهيق دون إجبار."],
+        "replies": [
+          "يبدو أن هذا حمل كبير. {advice} هذا دعم وليس علاجاً.",
+          "شكراً لأنك وضعته في كلمات. {advice}",
+          "لنخفف الحمل قليلاً: {advice} يمكن لزميل أو طبيب نفس الطيران أن يسمعك أيضاً."
+        ]
+      },
+      "lowmood": {
+        "label": "مزاج منخفض",
+        "patterns": ["حزين", "حزينة", "زعلان", "زعلانة", "وحدة", "وحيد", "مكتئب", "عيّاط", "عياط", "بكاء", "فاضي", "يائس", "مخنوق نفسياً"],
+        "advice": ["أخبر زميلاً واحداً كيف يشعر يومك فعلاً.", "اختر راحة صغيرة واحدة: ماء أو طعام أو دقيقة هدوء."],
+        "replies": [
+          "شكراً لثقتك بي. {advice} هذا دعم وليس تشخيصاً.",
+          "يبدو ثقيلاً أن تحمله وحدك. {advice}",
+          "أنا سعيد أنك قلت ذلك. {advice} يمكن لطبيب نفس الطيران أن يتحدث معك أيضاً إن أردت."
+        ]
+      },
+      "pain": {
+        "label": "ألم",
+        "patterns": ["ألم", "الم", "وجع", "شد عضلي", "مغص", "ضهري", "ركبتي", "كتفي"],
+        "advice": ["أوقف الحركة التي تزيده وأرح المنطقة.", "أخبر زميلاً أين يؤلمك ومنذ متى."],
+        "replies": [
+          "الألم إشارة للتباطؤ. {advice} لا أستطيع تشخيصه.",
+          "شكراً لأنك أخبرتني. {advice} إن كان حاداً أو يزداد، قل ذلك فوراً.",
+          "لنحمِ المنطقة أولاً: {advice} يمكن للفريق الطبي مراجعة الملاحظة."
+        ]
+      },
+      "vision": {
+        "label": "تغيّر في الرؤية",
+        "patterns": ["رؤية", "رؤيتي", "ضباب", "زغللة", "عيني", "عينى", "أشوف ضباب", "اشوف ضباب", "رؤية مزدوجة"],
+        "advice": ["توقف عن الشاشات لحظة وانظر عبر الكابينة.", "أخبر زميلاً إن كان التغيّر مفاجئاً أو في عين واحدة."],
+        "replies": [
+          "تغيّرات الرؤية تستحق الانتباه. {advice} هذا ليس تشخيصاً.",
+          "شكراً لملاحظتك. {advice} التغيّر المفاجئ يجب أن يصل للفريق الطبي سريعاً.",
+          "لنرح عينيك أولاً: {advice} إن استمر، ابقَ حيث يمكن لأحد أن يطمئن عليك."
+        ]
+      },
+      "appetite": {
+        "label": "تغيّر الشهية",
+        "patterns": ["شهية", "شهيتي", "مش جعان", "مش جعانة", "مش قادر آكل", "مش قادر اكل", "مش عايز آكل", "مش عايز اكل", "نفسي مسدودة"],
+        "advice": ["جرّب كمية صغيرة من شيء بسيط وارتشف ماءً.", "لاحظ هل بدأ هذا اليوم أم يتراكم."],
+        "replies": [
+          "تغيّر الشهية يستحق التسجيل. {advice} هذا دعم وليس تشخيصاً.",
+          "شكراً لأنك أخبرتني. {advice} إن استمر أكثر من يوم، يجب أن يعرف الفريق الطبي.",
+          "لنبقي الطعام بسيطاً بدلاً من إجباره: {advice}"
+        ]
+      },
+      "radiation": {
+        "label": "قلق من الإشعاع",
+        "patterns": ["إشعاع", "اشعاع", "إشعاعات", "جرعة", "جرعه", "تعرض", "عاصفة شمسية", "عاصفه شمسيه", "العاصفة الشمسية", "شمسية"],
+        "advice": ["تحقق من قراءة مقياس الجرعة وإرشادات الفريق الحالية.", "إن طُلب الاحتماء، خذ المقياس معك وأغلق الفتحة."],
+        "replies": [
+          "هذا القلق مفهوم. {advice} الأعراض وحدها لا تُظهر التعرض للإشعاع.",
+          "مقياس الجرعة هو المصدر الموثوق هنا. {advice} يمكنني شرح الحالة الحالية.",
+          "لننظر للأرقام المقاسة بدلاً من التخمين: {advice}"
+        ]
+      }
+    }
+  }
+}

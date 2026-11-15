@@ -1,0 +1,711 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AstraDomain",
+  "description": "Shared data contracts between the crew hub, ground backend and the Astra web clients.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "healthStatus": { "$ref": "#/definitions/HealthStatus" },
+    "indicator": { "$ref": "#/definitions/Indicator" },
+    "indicatorSample": { "$ref": "#/definitions/IndicatorSample" },
+    "indicatorSeries": { "$ref": "#/definitions/IndicatorSeries" },
+    "organ": { "$ref": "#/definitions/Organ" },
+    "alert": { "$ref": "#/definitions/Alert" },
+    "astronaut": { "$ref": "#/definitions/Astronaut" },
+    "crewOverview": { "$ref": "#/definitions/CrewOverview" },
+    "mission": { "$ref": "#/definitions/Mission" },
+    "exposureRecord": { "$ref": "#/definitions/ExposureRecord" },
+    "exposureState": { "$ref": "#/definitions/ExposureState" },
+    "radiationEvent": { "$ref": "#/definitions/RadiationEvent" },
+    "radiationState": { "$ref": "#/definitions/RadiationState" },
+    "shelterInfo": { "$ref": "#/definitions/ShelterInfo" },
+    "securityCheck": { "$ref": "#/definitions/SecurityCheck" },
+    "securityState": { "$ref": "#/definitions/SecurityState" },
+    "linkState": { "$ref": "#/definitions/LinkState" },
+    "backupState": { "$ref": "#/definitions/BackupState" },
+    "checkin": { "$ref": "#/definitions/Checkin" },
+    "checkinRequest": { "$ref": "#/definitions/CheckinRequest" },
+    "plan": { "$ref": "#/definitions/Plan" },
+    "planItem": { "$ref": "#/definitions/PlanItem" },
+    "companionMessage": { "$ref": "#/definitions/CompanionMessage" },
+    "companionRequest": { "$ref": "#/definitions/CompanionRequest" },
+    "companionReply": { "$ref": "#/definitions/CompanionReply" },
+    "companionAction": { "$ref": "#/definitions/CompanionAction" },
+    "breathingTechnique": { "$ref": "#/definitions/BreathingTechnique" },
+    "speechResult": { "$ref": "#/definitions/SpeechResult" },
+    "authUser": { "$ref": "#/definitions/AuthUser" },
+    "loginRequest": { "$ref": "#/definitions/LoginRequest" },
+    "session": { "$ref": "#/definitions/Session" },
+    "consentState": { "$ref": "#/definitions/ConsentState" },
+    "astronautSettings": { "$ref": "#/definitions/AstronautSettings" },
+    "commandRequest": { "$ref": "#/definitions/CommandRequest" },
+    "commandRecord": { "$ref": "#/definitions/CommandRecord" },
+    "demoRequest": { "$ref": "#/definitions/DemoRequest" },
+    "demoState": { "$ref": "#/definitions/DemoState" },
+    "appEvent": { "$ref": "#/definitions/AppEvent" }
+  },
+  "definitions": {
+    "HealthStatus": { "type": "string", "enum": ["normal", "attention", "urgent", "unknown"] },
+    "TrendDirection": { "type": "string", "enum": ["up", "down", "stable"] },
+    "AlertPriority": { "type": "string", "enum": ["security", "radiation", "health"] },
+    "AlertSeverity": { "type": "string", "enum": ["urgent", "attention", "info"] },
+    "LinkStateValue": {
+      "type": "string",
+      "enum": ["connected", "autonomous", "degraded", "down"]
+    },
+    "SecurityLevel": { "type": "string", "enum": ["ok", "degraded", "critical"] },
+    "Role": { "type": "string", "enum": ["flight_surgeon", "medical_officer", "viewer"] },
+    "Baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["low", "high"],
+      "properties": {
+        "low": { "type": "number" },
+        "high": { "type": "number" }
+      }
+    },
+    "Indicator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "label",
+        "unit",
+        "value",
+        "status",
+        "reason",
+        "updatedAt",
+        "baseline",
+        "trend"
+      ],
+      "properties": {
+        "key": { "type": "string" },
+        "label": { "type": "string" },
+        "unit": { "type": "string" },
+        "value": { "type": "number" },
+        "secondary": { "type": ["number", "null"] },
+        "status": { "$ref": "#/definitions/HealthStatus" },
+        "reason": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "baseline": { "$ref": "#/definitions/Baseline" },
+        "trend": { "$ref": "#/definitions/TrendDirection" },
+        "precision": { "type": ["integer", "null"] }
+      }
+    },
+    "IndicatorSample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["t", "value"],
+      "properties": {
+        "t": { "type": "string", "format": "date-time" },
+        "value": { "type": "number" },
+        "secondary": { "type": ["number", "null"] }
+      }
+    },
+    "IndicatorSeries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "label", "unit", "baseline", "range", "samples"],
+      "properties": {
+        "key": { "type": "string" },
+        "label": { "type": "string" },
+        "unit": { "type": "string" },
+        "baseline": { "$ref": "#/definitions/Baseline" },
+        "range": { "type": "string" },
+        "samples": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/IndicatorSample" }
+        }
+      }
+    },
+    "Organ": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "function", "status", "hazards", "whatToDo", "indicatorKeys"],
+      "properties": {
+        "id": { "type": "string", "enum": ["heart", "brain", "lungs", "bones"] },
+        "name": { "type": "string" },
+        "function": { "type": "string" },
+        "status": { "$ref": "#/definitions/HealthStatus" },
+        "hazards": { "type": "array", "items": { "type": "string" } },
+        "whatToDo": { "type": "array", "items": { "type": "string" } },
+        "indicatorKeys": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "Alert": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "astronautId",
+        "priority",
+        "severity",
+        "title",
+        "why",
+        "createdAt",
+        "acknowledged",
+        "source"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "astronautId": { "type": "string" },
+        "priority": { "$ref": "#/definitions/AlertPriority" },
+        "severity": { "$ref": "#/definitions/AlertSeverity" },
+        "title": { "type": "string" },
+        "why": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "acknowledged": { "type": "boolean" },
+        "acknowledgedBy": { "type": ["string", "null"] },
+        "acknowledgedAt": { "type": ["string", "null"] },
+        "source": { "type": "string" },
+        "channel": { "type": "string", "enum": ["station", "astronaut"] }
+      }
+    },
+    "Astronaut": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "initials",
+        "missionDay",
+        "currentMissionId",
+        "currentMissionName",
+        "status",
+        "linkState",
+        "lastSyncAt",
+        "activeAlerts"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "initials": { "type": "string" },
+        "missionDay": { "type": "integer" },
+        "currentMissionId": { "type": "string" },
+        "currentMissionName": { "type": "string" },
+        "status": { "$ref": "#/definitions/HealthStatus" },
+        "linkState": { "$ref": "#/definitions/LinkStateValue" },
+        "lastSyncAt": { "type": "string", "format": "date-time" },
+        "activeAlerts": { "type": "integer" },
+        "sleepHours": { "type": "number" },
+        "restingHr": { "type": "number" },
+        "location": { "type": "string" }
+      }
+    },
+    "CrewOverview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generatedAt", "link", "astronauts"],
+      "properties": {
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "link": { "$ref": "#/definitions/LinkState" },
+        "astronauts": { "type": "array", "items": { "$ref": "#/definitions/Astronaut" } }
+      }
+    },
+    "MissionStats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["meanSleepHours", "meanHeartRate", "radiationDoseMsv", "incidents"],
+      "properties": {
+        "meanSleepHours": { "type": "number" },
+        "meanHeartRate": { "type": "number" },
+        "radiationDoseMsv": { "type": "number" },
+        "incidents": { "type": "integer" }
+      }
+    },
+    "Mission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "astronautId",
+        "name",
+        "vehicle",
+        "startDate",
+        "endDate",
+        "days",
+        "role",
+        "highlight",
+        "summary",
+        "stats"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "astronautId": { "type": "string" },
+        "name": { "type": "string" },
+        "vehicle": { "type": "string" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": ["string", "null"] },
+        "days": { "type": "integer" },
+        "role": { "type": "string" },
+        "highlight": { "type": "string" },
+        "summary": { "type": "string" },
+        "stats": { "$ref": "#/definitions/MissionStats" }
+      }
+    },
+    "ExposureRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "astronautId", "missionId", "date", "doseMsv", "symptoms", "followUpUntil"],
+      "properties": {
+        "id": { "type": "string" },
+        "astronautId": { "type": "string" },
+        "missionId": { "type": "string" },
+        "date": { "type": "string" },
+        "doseMsv": { "type": "number" },
+        "symptoms": { "type": "array", "items": { "type": "string" } },
+        "followUpUntil": { "type": ["string", "null"], "format": "date-time" },
+        "note": { "type": "string" }
+      }
+    },
+    "ExposureState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "astronautId",
+        "records",
+        "monitoringActive",
+        "monitoringStartedAt",
+        "monitoringUntil",
+        "windowHours"
+      ],
+      "properties": {
+        "astronautId": { "type": "string" },
+        "records": { "type": "array", "items": { "$ref": "#/definitions/ExposureRecord" } },
+        "monitoringActive": { "type": "boolean" },
+        "monitoringStartedAt": { "type": ["string", "null"], "format": "date-time" },
+        "monitoringUntil": { "type": ["string", "null"], "format": "date-time" },
+        "windowHours": { "type": "integer" }
+      }
+    },
+    "RadiationEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "doseRate", "startedAt", "endedAt"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["routine", "solar_particle_event", "alarm", "dosimeter_spike"]
+        },
+        "doseRate": { "type": "number" },
+        "startedAt": { "type": "string", "format": "date-time" },
+        "endedAt": { "type": ["string", "null"], "format": "date-time" },
+        "note": { "type": "string" }
+      }
+    },
+    "ShelterInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["zone", "direction", "distanceM", "instructions"],
+      "properties": {
+        "zone": { "type": "string" },
+        "direction": {
+          "type": "string",
+          "enum": ["left", "right", "forward", "behind", "up", "down"]
+        },
+        "distanceM": { "type": "number" },
+        "instructions": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "RadiationState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "astronautId",
+        "doseRate",
+        "unit",
+        "cumulativeMsv",
+        "budgetMsv",
+        "budgetUsedPct",
+        "status",
+        "alertActive",
+        "shelter",
+        "events"
+      ],
+      "properties": {
+        "astronautId": { "type": "string" },
+        "doseRate": { "type": "number" },
+        "unit": { "type": "string" },
+        "cumulativeMsv": { "type": "number" },
+        "budgetMsv": { "type": "number" },
+        "budgetUsedPct": { "type": "number" },
+        "status": { "$ref": "#/definitions/HealthStatus" },
+        "alertActive": { "type": "boolean" },
+        "shelter": { "$ref": "#/definitions/ShelterInfo" },
+        "latestEvent": { "$ref": "#/definitions/RadiationEvent" },
+        "events": { "type": "array", "items": { "$ref": "#/definitions/RadiationEvent" } }
+      }
+    },
+    "SecurityCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "state", "detail"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": ["confidentiality", "integrity", "secure_communication", "offline_backup"]
+        },
+        "label": { "type": "string" },
+        "state": { "$ref": "#/definitions/SecurityLevel" },
+        "detail": { "type": "string" }
+      }
+    },
+    "SecurityState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "headline", "checks", "lastEventAt"],
+      "properties": {
+        "level": { "$ref": "#/definitions/SecurityLevel" },
+        "headline": { "type": "string" },
+        "checks": { "type": "array", "items": { "$ref": "#/definitions/SecurityCheck" } },
+        "lastEventAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "LinkState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "label", "since", "delayMs", "lastSyncAt", "queue"],
+      "properties": {
+        "state": { "$ref": "#/definitions/LinkStateValue" },
+        "label": { "type": "string" },
+        "since": { "type": "string", "format": "date-time" },
+        "delayMs": { "type": "number" },
+        "lastSyncAt": { "type": "string", "format": "date-time" },
+        "queue": { "type": "integer" }
+      }
+    },
+    "BackupState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "lastBackupAt", "pendingBatches", "sizeKb", "encrypted"],
+      "properties": {
+        "status": { "type": "string", "enum": ["current", "syncing", "queued", "error"] },
+        "lastBackupAt": { "type": "string", "format": "date-time" },
+        "pendingBatches": { "type": "integer" },
+        "sizeKb": { "type": "number" },
+        "encrypted": { "type": "boolean" }
+      }
+    },
+    "Checkin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "astronautId",
+        "createdAt",
+        "mood",
+        "energy",
+        "dizziness",
+        "workload",
+        "symptoms"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "astronautId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "mood": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "energy": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "dizziness": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "workload": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "symptoms": { "type": "array", "items": { "type": "string" } },
+        "note": { "type": "string" }
+      }
+    },
+    "CheckinRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mood", "energy", "dizziness", "workload", "symptoms"],
+      "properties": {
+        "astronautId": { "type": "string" },
+        "mood": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "energy": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "dizziness": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "workload": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "symptoms": { "type": "array", "items": { "type": "string" } },
+        "note": { "type": "string" }
+      }
+    },
+    "PlanItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "category", "title", "detail", "rationale", "durationMin", "done"],
+      "properties": {
+        "id": { "type": "string" },
+        "category": {
+          "type": "string",
+          "enum": ["exercise", "nutrition", "sleep", "wellbeing"]
+        },
+        "title": { "type": "string" },
+        "detail": { "type": "string" },
+        "rationale": { "type": "string" },
+        "durationMin": { "type": "integer" },
+        "done": { "type": "boolean" }
+      }
+    },
+    "Plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["astronautId", "weekOf", "items"],
+      "properties": {
+        "astronautId": { "type": "string" },
+        "weekOf": { "type": "string" },
+        "items": { "type": "array", "items": { "$ref": "#/definitions/PlanItem" } }
+      }
+    },
+    "CompanionAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "kind"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "kind": { "type": "string", "enum": ["breathing", "checkin", "plan", "shelter", "none"] },
+        "payload": { "type": ["string", "null"] }
+      }
+    },
+    "CompanionMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "text", "createdAt"],
+      "properties": {
+        "id": { "type": "string" },
+        "role": { "type": "string", "enum": ["astronaut", "companion"] },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "actions": { "type": "array", "items": { "$ref": "#/definitions/CompanionAction" } }
+      }
+    },
+    "CompanionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["astronautId", "text"],
+      "properties": {
+        "astronautId": { "type": "string" },
+        "text": { "type": "string" },
+        "tone": { "type": "string", "enum": ["calm", "warm", "direct"] },
+        "language": { "type": "string", "enum": ["en", "ar"] }
+      }
+    },
+    "CompanionReply": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reply", "actions"],
+      "properties": {
+        "reply": { "$ref": "#/definitions/CompanionMessage" },
+        "actions": { "type": "array", "items": { "$ref": "#/definitions/CompanionAction" } }
+      }
+    },
+    "BreathingPhase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "seconds"],
+      "properties": {
+        "label": { "type": "string", "enum": ["inhale", "hold", "exhale", "pause"] },
+        "seconds": { "type": "number" }
+      }
+    },
+    "BreathingTechnique": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "description", "phases", "defaultMinutes", "benefits"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "phases": { "type": "array", "items": { "$ref": "#/definitions/BreathingPhase" } },
+        "defaultMinutes": { "type": "integer" },
+        "benefits": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "SpeechResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": { "type": "string" },
+        "confidence": { "type": ["number", "null"] }
+      }
+    },
+    "AuthUser": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "role", "initials"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "$ref": "#/definitions/Role" },
+        "initials": { "type": "string" }
+      }
+    },
+    "LoginRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["email", "password"],
+      "properties": {
+        "email": { "type": "string" },
+        "password": { "type": "string" }
+      }
+    },
+    "Session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["token", "user", "expiresAt"],
+      "properties": {
+        "token": { "type": "string" },
+        "user": { "$ref": "#/definitions/AuthUser" },
+        "expiresAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "ConsentTiers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vitals_summary", "psych_summary", "raw_audio", "exposure_records"],
+      "properties": {
+        "vitals_summary": { "type": "boolean" },
+        "psych_summary": { "type": "boolean" },
+        "raw_audio": { "type": "boolean" },
+        "exposure_records": { "type": "boolean" }
+      }
+    },
+    "ConsentState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tiers", "updatedAt"],
+      "properties": {
+        "tiers": { "$ref": "#/definitions/ConsentTiers" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "NotificationPrefs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alarms", "reminders", "companion"],
+      "properties": {
+        "alarms": { "type": "boolean" },
+        "reminders": { "type": "boolean" },
+        "companion": { "type": "boolean" }
+      }
+    },
+    "AstronautSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "voice",
+        "tone",
+        "language",
+        "checkinTime",
+        "environment",
+        "notifications"
+      ],
+      "properties": {
+        "voice": { "type": "boolean" },
+        "tone": { "type": "string", "enum": ["calm", "warm", "direct"] },
+        "language": { "type": "string", "enum": ["en", "ar"] },
+        "checkinTime": { "type": "string" },
+        "environment": {
+          "type": "string",
+          "enum": ["spacecraft", "station", "rover", "base"]
+        },
+        "notifications": { "$ref": "#/definitions/NotificationPrefs" }
+      }
+    },
+    "AuditEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["at", "actor", "action"],
+      "properties": {
+        "at": { "type": "string", "format": "date-time" },
+        "actor": { "type": "string" },
+        "action": { "type": "string" }
+      }
+    },
+    "CommandRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["astronautId", "type", "payload"],
+      "properties": {
+        "astronautId": { "type": "string" },
+        "type": { "type": "string", "enum": ["thresholds", "plan", "schedule"] },
+        "payload": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "CommandRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "astronautId",
+        "type",
+        "payload",
+        "status",
+        "createdAt",
+        "deliveredAt",
+        "createdBy",
+        "audit"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "astronautId": { "type": "string" },
+        "type": { "type": "string", "enum": ["thresholds", "plan", "schedule"] },
+        "payload": { "type": "object", "additionalProperties": true },
+        "status": { "type": "string", "enum": ["pending", "delivered", "failed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "deliveredAt": { "type": ["string", "null"], "format": "date-time" },
+        "createdBy": { "type": "string" },
+        "audit": { "type": "array", "items": { "$ref": "#/definitions/AuditEntry" } }
+      }
+    },
+    "DemoScenario": {
+      "type": "string",
+      "enum": [
+        "reset",
+        "normal",
+        "day60",
+        "radiation_spike",
+        "sensor_fault",
+        "cut_link",
+        "restore_link",
+        "link_delay",
+        "attack_forged_reading",
+        "attack_replay",
+        "attack_spoofed_device",
+        "attack_fake_dosimeter"
+      ]
+    },
+    "DemoRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scenario"],
+      "properties": {
+        "scenario": { "$ref": "#/definitions/DemoScenario" },
+        "delayMs": { "type": "number" }
+      }
+    },
+    "DemoState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["missionDay", "scenario", "link", "security", "radiationAlertActive"],
+      "properties": {
+        "missionDay": { "type": "integer" },
+        "scenario": { "$ref": "#/definitions/DemoScenario" },
+        "link": { "$ref": "#/definitions/LinkState" },
+        "security": { "$ref": "#/definitions/SecurityState" },
+        "radiationAlertActive": { "type": "boolean" }
+      }
+    },
+    "AppEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "at", "severity", "message", "payload"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "at": { "type": "string", "format": "date-time" },
+        "severity": { "type": "string", "enum": ["info", "attention", "urgent"] },
+        "message": { "type": "string" },
+        "payload": { "type": "object", "additionalProperties": true }
+      }
+    }
+  }
+}

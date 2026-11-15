@@ -1,0 +1,2100 @@
+openapi: 3.1.0
+info:
+  title: ASTRA Backend Services
+  version: 1.0.0
+  description: Editable composite contract generated from the running Hub, Ground
+    Station, Companion and Link Simulator FastAPI interfaces. Shared wire schemas
+    are listed under x-shared-contract-schemas; this file is a backend-owned working
+    copy.
+  x-shared-contract-schemas:
+  - ../contracts/checkin.schema.json
+  - ../contracts/consent.schema.json
+  - ../contracts/envelope.schema.json
+  - ../contracts/exposure_record.schema.json
+  - ../contracts/integrity_result.schema.json
+  - ../contracts/plan.schema.json
+  - ../contracts/reading.schema.json
+  - ../contracts/security_event.schema.json
+  - ../contracts/status.schema.json
+paths:
+  /ingest:
+    post:
+      summary: Ingest
+      operationId: Hub_ingest_ingest_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hub_Reading'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /api/checkin:
+    post:
+      summary: Checkin
+      operationId: Hub_checkin_api_checkin_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hub_Checkin'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/manual-reading:
+    post:
+      summary: Manual Reading
+      operationId: Hub_manual_reading_api_manual_reading_post
+      parameters:
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hub_ManualReading'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /api/crew/overview:
+    get:
+      summary: Crew Overview
+      operationId: Hub_crew_overview_api_crew_overview_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+  /api/astronauts/{astronaut_id}:
+    get:
+      summary: Astronaut View
+      operationId: Hub_astronaut_view_api_astronauts__astronaut_id__get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/astronauts/{astronaut_id}/indicators:
+    get:
+      summary: Astronaut Indicators
+      operationId: Hub_astronaut_indicators_api_astronauts__astronaut_id__indicators_get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/astronauts/{astronaut_id}/missions:
+    get:
+      summary: Astronaut Missions
+      operationId: Hub_astronaut_missions_api_astronauts__astronaut_id__missions_get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/astronauts/{astronaut_id}/indicators/{key}:
+    get:
+      summary: Astronaut Indicator Series
+      operationId: Hub_astronaut_indicator_series_api_astronauts__astronaut_id__indicators__key__get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Key
+      - name: range
+        in: query
+        required: false
+        schema:
+          type: string
+          default: 24h
+          title: Range
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/astronauts/{astronaut_id}/organs:
+    get:
+      summary: Astronaut Organs
+      operationId: Hub_astronaut_organs_api_astronauts__astronaut_id__organs_get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/astronauts/{astronaut_id}/alerts:
+    get:
+      summary: Astronaut Alerts
+      operationId: Hub_astronaut_alerts_api_astronauts__astronaut_id__alerts_get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/astronauts/{astronaut_id}/radiation:
+    get:
+      summary: Astronaut Radiation
+      operationId: Hub_astronaut_radiation_api_astronauts__astronaut_id__radiation_get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/astronauts/{astronaut_id}/exposure:
+    get:
+      summary: Astronaut Exposure
+      operationId: Hub_astronaut_exposure_api_astronauts__astronaut_id__exposure_get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/astronauts/{astronaut_id}/checkins:
+    get:
+      summary: Astronaut Checkins
+      operationId: Hub_astronaut_checkins_api_astronauts__astronaut_id__checkins_get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/astronauts/{astronaut_id}/plan:
+    get:
+      summary: Astronaut Plan
+      operationId: Hub_astronaut_plan_api_astronauts__astronaut_id__plan_get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/astronauts/{astronaut_id}/settings:
+    get:
+      summary: Astronaut Settings
+      operationId: Hub_astronaut_settings_api_astronauts__astronaut_id__settings_get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+    put:
+      summary: Save Astronaut Settings
+      operationId: Hub_save_astronaut_settings_api_astronauts__astronaut_id__settings_put
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hub_AstronautSettingsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /api/status/{astronaut_id}:
+    get:
+      summary: Get Status
+      operationId: Hub_get_status_api_status__astronaut_id__get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /api/readings/{astronaut_id}:
+    get:
+      summary: Get Readings
+      operationId: Hub_get_readings_api_readings__astronaut_id__get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      - name: metric
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metric
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 500
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /api/alerts:
+    get:
+      summary: Get Alerts
+      operationId: Hub_get_alerts_api_alerts_get
+      parameters:
+      - name: astronaut_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Astronaut Id
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Hub_HTTPValidationError'
+                - $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - Hub
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8000
+      - url: http://127.0.0.1:8100
+      security:
+      - BearerAuth: []
+  /api/alerts/{alert_id}/ack:
+    post:
+      summary: Acknowledge Hub Alert
+      operationId: Hub_acknowledge_hub_alert_api_alerts__alert_id__ack_post
+      parameters:
+      - name: alert_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Alert Id
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Hub_HTTPValidationError'
+                - $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - Hub
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8000
+      - url: http://127.0.0.1:8100
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroundStation_Ack'
+      security:
+      - BearerAuth: []
+      - {}
+  /api/plan/{astronaut_id}:
+    get:
+      summary: Get Plan
+      operationId: Hub_get_plan_api_plan__astronaut_id__get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      - name: week
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 12
+          title: Week
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /api/radiation/current:
+    get:
+      summary: Radiation Current
+      operationId: Hub_radiation_current_api_radiation_current_get
+      parameters:
+      - name: astronaut_id
+        in: query
+        required: false
+        schema:
+          type: string
+          default: A-07
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /api/exposure-records/{astronaut_id}:
+    get:
+      summary: Exposure Records
+      operationId: Hub_exposure_records_api_exposure_records__astronaut_id__get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /api/link/state:
+    get:
+      summary: Link State
+      operationId: Hub_link_state_api_link_state_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - Hub
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8000
+      - url: http://127.0.0.1:8100
+      parameters:
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+  /api/backup/state:
+    get:
+      summary: Backup State
+      operationId: Hub_backup_state_api_backup_state_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - Hub
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8000
+      - url: http://127.0.0.1:8100
+      parameters:
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+  /api/security/state:
+    get:
+      summary: Security State
+      operationId: Hub_security_state_api_security_state_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /api/consent/{astronaut_id}:
+    get:
+      summary: Get Consent
+      operationId: Hub_get_consent_api_consent__astronaut_id__get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+    put:
+      summary: Put Consent
+      operationId: Hub_put_consent_api_consent__astronaut_id__put
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hub_Consent'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+      security:
+      - BearerAuth: []
+      - {}
+  /internal/downlink:
+    post:
+      summary: Receive Downlink
+      operationId: Hub_receive_downlink_internal_downlink_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              additionalProperties: true
+              type: object
+              title: Item
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /demo/scenario:
+    post:
+      summary: Demo Scenario
+      operationId: Hub_demo_scenario_demo_scenario_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hub_DemoScenario'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hub_HTTPValidationError'
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /api/demo/state:
+    get:
+      summary: Get Demo State
+      operationId: Hub_get_demo_state_api_demo_state_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Hub
+      servers:
+      - url: http://127.0.0.1:8000
+  /health:
+    get:
+      summary: Health
+      operationId: Hub_health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Hub
+      - GroundStation
+      - Companion
+      servers:
+      - url: http://127.0.0.1:8000
+      - url: http://127.0.0.1:8100
+      - url: http://127.0.0.1:8200
+      parameters: []
+  /auth/login:
+    post:
+      summary: Login
+      operationId: GroundStation_login_auth_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroundStation_Login'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8100
+  /auth/logout:
+    post:
+      summary: Logout
+      operationId: GroundStation_logout_auth_logout_post
+      parameters:
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8100
+      security:
+      - BearerAuth: []
+  /uplink:
+    post:
+      summary: Receive Uplink
+      operationId: GroundStation_receive_uplink_uplink_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              additionalProperties: true
+              type: object
+              title: Envelope
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8100
+  /api/crew:
+    get:
+      summary: Crew
+      operationId: GroundStation_crew_api_crew_get
+      parameters:
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8100
+  /api/crew/{astronaut_id}:
+    get:
+      summary: Crew Member
+      operationId: GroundStation_crew_member_api_crew__astronaut_id__get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8100
+  /api/crew/{astronaut_id}/history:
+    get:
+      summary: Crew History
+      operationId: GroundStation_crew_history_api_crew__astronaut_id__history_get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8100
+  /api/missions:
+    get:
+      summary: Missions
+      operationId: GroundStation_missions_api_missions_get
+      parameters:
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8100
+  /api/commands:
+    post:
+      summary: Issue Command
+      operationId: GroundStation_issue_command_api_commands_post
+      parameters:
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroundStation_Command'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8100
+      security:
+      - BearerAuth: []
+    get:
+      summary: List Commands
+      operationId: GroundStation_list_commands_api_commands_get
+      parameters:
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroundStation_HTTPValidationError'
+      tags:
+      - GroundStation
+      servers:
+      - url: http://127.0.0.1:8100
+      security:
+      - BearerAuth: []
+  /companion/message:
+    post:
+      summary: Companion Message
+      operationId: Companion_companion_message_companion_message_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Companion_MessageRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Companion Message Companion Message Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Companion_HTTPValidationError'
+      tags:
+      - Companion
+      servers:
+      - url: http://127.0.0.1:8200
+  /companion/transcript/{astronaut_id}:
+    get:
+      summary: Companion Transcript
+      operationId: Companion_companion_transcript_companion_transcript__astronaut_id__get
+      parameters:
+      - name: astronaut_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Astronaut Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+                title: Response Companion Transcript Companion Transcript  Astronaut
+                  Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Companion_HTTPValidationError'
+      tags:
+      - Companion
+      servers:
+      - url: http://127.0.0.1:8200
+  /companion/breathing:
+    get:
+      summary: Breathing List
+      operationId: Companion_breathing_list_companion_breathing_get
+      parameters:
+      - name: dizziness_reported
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Dizziness Reported
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Breathing List Companion Breathing Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Companion_HTTPValidationError'
+      tags:
+      - Companion
+      servers:
+      - url: http://127.0.0.1:8200
+  /companion/breathing/{technique_id}:
+    get:
+      summary: Breathing Detail
+      operationId: Companion_breathing_detail_companion_breathing__technique_id__get
+      parameters:
+      - name: technique_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Technique Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Breathing Detail Companion Breathing  Technique Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Companion_HTTPValidationError'
+      tags:
+      - Companion
+      servers:
+      - url: http://127.0.0.1:8200
+  /companion/checkin/next:
+    get:
+      summary: Checkin Next
+      operationId: Companion_checkin_next_companion_checkin_next_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Checkin Next Companion Checkin Next Get
+      tags:
+      - Companion
+      servers:
+      - url: http://127.0.0.1:8200
+  /companion/stt:
+    post:
+      summary: Companion Stt
+      description: Transcribe WAV from request bytes using Vosk and a local model
+        only.
+      operationId: Companion_companion_stt_companion_stt_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Companion Stt Companion Stt Post
+      tags:
+      - Companion
+      servers:
+      - url: http://127.0.0.1:8200
+  /companion/tts:
+    post:
+      summary: Companion Tts
+      description: Generate speech via local Piper; temporary output is removed immediately.
+      operationId: Companion_companion_tts_companion_tts_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Companion_TTSRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Companion_HTTPValidationError'
+      tags:
+      - Companion
+      servers:
+      - url: http://127.0.0.1:8200
+  /link/state:
+    get:
+      summary: Link State
+      operationId: LinkSimulator_link_state_link_state_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - LinkSimulator
+      servers:
+      - url: http://127.0.0.1:8300
+  /link/connect:
+    post:
+      summary: Link Connect
+      operationId: LinkSimulator_link_connect_link_connect_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - LinkSimulator
+      servers:
+      - url: http://127.0.0.1:8300
+  /link/disconnect:
+    post:
+      summary: Link Disconnect
+      operationId: LinkSimulator_link_disconnect_link_disconnect_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - LinkSimulator
+      servers:
+      - url: http://127.0.0.1:8300
+  /link/delay:
+    post:
+      summary: Link Delay
+      operationId: LinkSimulator_link_delay_link_delay_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkSimulator_DelayBody'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkSimulator_HTTPValidationError'
+      tags:
+      - LinkSimulator
+      servers:
+      - url: http://127.0.0.1:8300
+  /link/submit:
+    post:
+      summary: Link Submit
+      operationId: LinkSimulator_link_submit_link_submit_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - LinkSimulator
+      servers:
+      - url: http://127.0.0.1:8300
+components:
+  schemas:
+    Hub_AstronautSettingsRequest:
+      properties:
+        voice:
+          type: boolean
+          title: Voice
+          default: true
+        tone:
+          type: string
+          enum:
+          - calm
+          - warm
+          - direct
+          title: Tone
+          default: calm
+        language:
+          type: string
+          enum:
+          - en
+          - ar
+          title: Language
+          default: en
+        checkinTime:
+          type: string
+          title: Checkintime
+          default: '19:30'
+        environment:
+          type: string
+          enum:
+          - spacecraft
+          - station
+          - rover
+          - base
+          title: Environment
+          default: spacecraft
+        notifications:
+          additionalProperties:
+            type: boolean
+          type: object
+          title: Notifications
+      type: object
+      title: AstronautSettingsRequest
+    Hub_Checkin:
+      properties:
+        astronaut_id:
+          type: string
+          title: Astronaut Id
+        ts:
+          type: string
+          title: Ts
+        mood:
+          type: integer
+          maximum: 5.0
+          minimum: 1.0
+          title: Mood
+        energy:
+          type: integer
+          maximum: 5.0
+          minimum: 1.0
+          title: Energy
+        dizziness:
+          type: integer
+          maximum: 3.0
+          minimum: 0.0
+          title: Dizziness
+        workload:
+          type: integer
+          maximum: 5.0
+          minimum: 1.0
+          title: Workload
+        symptoms:
+          items:
+            type: string
+          type: array
+          title: Symptoms
+        notes:
+          type: string
+          title: Notes
+          default: ''
+      additionalProperties: false
+      type: object
+      required:
+      - astronaut_id
+      - ts
+      - mood
+      - energy
+      - dizziness
+      - workload
+      title: Checkin
+    Hub_Consent:
+      properties:
+        astronaut_id:
+          type: string
+          title: Astronaut Id
+        tiers:
+          additionalProperties:
+            type: boolean
+          type: object
+          title: Tiers
+        emergency_override:
+          type: boolean
+          title: Emergency Override
+      additionalProperties: false
+      type: object
+      required:
+      - astronaut_id
+      - tiers
+      - emergency_override
+      title: Consent
+    Hub_DemoScenario:
+      properties:
+        name:
+          type: string
+          title: Name
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      title: DemoScenario
+    Hub_HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/Hub_ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Hub_ManualReading:
+      properties:
+        astronaut_id:
+          type: string
+          title: Astronaut Id
+        metric:
+          type: string
+          enum:
+          - bp_systolic
+          - bp_diastolic
+          - blood_glucose
+          title: Metric
+        value:
+          type: number
+          title: Value
+        unit:
+          type: string
+          title: Unit
+        quality:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Quality
+          default: 1.0
+      additionalProperties: false
+      type: object
+      required:
+      - astronaut_id
+      - metric
+      - value
+      - unit
+      title: ManualReading
+    Hub_Reading:
+      properties:
+        schema:
+          type: string
+          const: astra.reading.v1
+          title: Schema
+        device_id:
+          type: string
+          minLength: 1
+          title: Device Id
+        astronaut_id:
+          type: string
+          minLength: 1
+          title: Astronaut Id
+        metric:
+          type: string
+          enum:
+          - heart_rate
+          - hrv_rmssd
+          - spo2
+          - skin_temp
+          - sleep_duration
+          - activity_level
+          - bp_systolic
+          - bp_diastolic
+          - blood_glucose
+          - dizziness_self_report
+          - mood
+          - dose_rate
+          - cumulative_dose
+          - neutron_dose_rate
+          title: Metric
+        value:
+          type: number
+          title: Value
+        unit:
+          type: string
+          title: Unit
+        ts:
+          type: string
+          title: Ts
+        seq:
+          type: integer
+          minimum: 0.0
+          title: Seq
+        nonce:
+          type: string
+          pattern: ^[0-9a-f]{32}$
+          title: Nonce
+        source:
+          type: string
+          enum:
+          - wearable
+          - clinical_device
+          - manual
+          - dosimeter
+          - area_monitor
+          - self_report
+          title: Source
+        quality:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Quality
+        sig:
+          type: string
+          minLength: 1
+          title: Sig
+      additionalProperties: false
+      type: object
+      required:
+      - schema
+      - device_id
+      - astronaut_id
+      - metric
+      - value
+      - unit
+      - ts
+      - seq
+      - nonce
+      - source
+      - quality
+      - sig
+      title: Reading
+    Hub_ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GroundStation_Ack:
+      properties:
+        note:
+          type: string
+          title: Note
+          default: ''
+      type: object
+      title: Ack
+    GroundStation_Command:
+      properties:
+        command_type:
+          type: string
+          title: Command Type
+          default: config_bundle
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+      type: object
+      required:
+      - payload
+      title: Command
+    GroundStation_HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/GroundStation_ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    GroundStation_Login:
+      properties:
+        username:
+          type: string
+          title: Username
+        password:
+          type: string
+          title: Password
+      type: object
+      required:
+      - username
+      - password
+      title: Login
+    GroundStation_ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Companion_HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/Companion_ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Companion_MessageRequest:
+      properties:
+        astronaut_id:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Astronaut Id
+        text:
+          type: string
+          maxLength: 2100
+          minLength: 1
+          title: Text
+        status_summary:
+          items:
+            $ref: '#/components/schemas/Companion_StatusSummary'
+          type: array
+          maxItems: 50
+          title: Status Summary
+        mode:
+          type: string
+          enum:
+          - connected
+          - autonomous
+          title: Mode
+          default: autonomous
+        intent:
+          anyOf:
+          - type: string
+            enum:
+            - daily_checkin
+            - breathing
+            - weekly_wellbeing
+            - radiation_followup
+            - shelter_prompt
+          - type: 'null'
+          title: Intent
+        dizziness_reported:
+          type: boolean
+          title: Dizziness Reported
+          default: false
+        tone:
+          type: string
+          enum:
+          - warm
+          - neutral
+          - brief
+          title: Tone
+          default: warm
+      type: object
+      required:
+      - astronaut_id
+      - text
+      title: MessageRequest
+    Companion_StatusSummary:
+      properties:
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Schema
+        astronaut_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Astronaut Id
+        indicator:
+          type: string
+          title: Indicator
+        status:
+          type: string
+          enum:
+          - normal
+          - attention
+          - urgent
+          title: Status
+        confidence:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Confidence
+        reasons:
+          items:
+            type: string
+          type: array
+          maxItems: 20
+          title: Reasons
+        baseline_ref:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Baseline Ref
+        recommended_action:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Recommended Action
+        decision_level:
+          anyOf:
+          - type: integer
+            maximum: 3.0
+            minimum: 1.0
+          - type: 'null'
+          title: Decision Level
+        computed_ts:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Computed Ts
+      type: object
+      required:
+      - indicator
+      - status
+      title: StatusSummary
+    Companion_TTSRequest:
+      properties:
+        text:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Text
+        voice:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Voice
+          default: default
+        speaking_rate:
+          type: number
+          maximum: 1.5
+          minimum: 0.7
+          title: Speaking Rate
+          default: 1.0
+      type: object
+      required:
+      - text
+      title: TTSRequest
+    Companion_ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    LinkSimulator_DelayBody:
+      properties:
+        seconds:
+          type: number
+          maximum: 3600.0
+          minimum: 0.0
+          title: Seconds
+      type: object
+      required:
+      - seconds
+      title: DelayBody
+    LinkSimulator_HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/LinkSimulator_ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LinkSimulator_ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Short-lived local Ground Station access token.
+tags:
+- name: Hub
+- name: GroundStation
+- name: Companion
+- name: LinkSimulator

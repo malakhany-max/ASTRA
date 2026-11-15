@@ -1,0 +1,1 @@
+"""ASTRA Onboard Hub service."""

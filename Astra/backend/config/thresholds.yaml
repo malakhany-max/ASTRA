@@ -1,0 +1,25 @@
+# ASTRA Companion - decision thresholds for the engine (Status levels).
+# Owner: Member 2 (engine/). READ-ONLY for security/.
+# Created here as a shared placeholder so the team can integrate on day 1.
+#
+# !!! DEMO_ONLY -- replace from NASA/medical references !!!
+# The security layer does NOT make medical decisions; it only uses these to
+# avoid flagging legitimate variation as implausible.
+
+status_thresholds:
+  resting_heart_rate:
+    attention_pct: 10     # DEMO_ONLY
+    urgent_pct: 20        # DEMO_ONLY
+    window_days: 5
+  sleep_duration:
+    attention_pct_down: 15  # DEMO_ONLY
+    urgent_pct_down: 30     # DEMO_ONLY
+    window_days: 7
+  spo2:
+    attention_below: 95   # DEMO_ONLY
+    urgent_below: 90      # DEMO_ONLY
+  radiation:
+    # DEMO_ONLY; replace from mission radiation protection policy.
+    attention_uSv_per_h: 50
+    urgent_uSv_per_h: 500
+    cumulative_attention_uSv: 500000

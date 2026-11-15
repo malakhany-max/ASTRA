@@ -1,0 +1,7 @@
+# Analytics tuning only. Health/radiation cutoffs remain in config/thresholds.yaml.
+calibration_samples: 12
+ewma_alpha: 0.05
+persistence_windows: 3
+deviation_z_cutoff: 2.0
+rolling_window_samples: 30
+followup_checkin_interval_hours: 6

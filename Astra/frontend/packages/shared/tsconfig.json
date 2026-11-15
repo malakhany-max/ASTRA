@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": ["vite/client", "node"],
+    "paths": {
+      "@contracts": ["../contracts/src/index.ts"],
+      "@contracts/*": ["../contracts/src/*"],
+      "@shared/*": ["./src/*"]
+    }
+  },
+  "include": ["src"]
+}

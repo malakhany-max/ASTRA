@@ -1,0 +1,33 @@
+# ASTRA Companion - physiological plausibility ranges.
+# Owner: Member 2 (engine/simulators). READ-ONLY for security/.
+# Created here as a shared placeholder so security/ can integrate on day 1.
+#
+# !!! DEMO_ONLY -- replace from NASA/medical references !!!
+# Every number below is a placeholder for the prototype and MUST NOT be treated
+# as a clinical threshold. The security layer only checks "is this physically
+# plausible for a human / sensor", never "is this a diagnosis".
+
+plausibility:
+  # max_rate_per_min: plausible absolute rate of change per minute.
+  heart_rate:            {unit: bpm,          min: 20,  max: 240, max_rate_per_min: 40}
+  hrv_rmssd:             {unit: ms,           min: 2,   max: 300, max_rate_per_min: 60}
+  spo2:                  {unit: "%",          min: 50,  max: 100, max_rate_per_min: 10}
+  skin_temp:             {unit: celsius,      min: 28,  max: 42,  max_rate_per_min: 2}
+  sleep_duration:        {unit: hours,        min: 0,   max: 24,  max_rate_per_min: 24}
+  activity_level:        {unit: index_0_100,  min: 0,   max: 100, max_rate_per_min: 100}
+  bp_systolic:           {unit: mmHg,         min: 40,  max: 300, max_rate_per_min: 40}
+  bp_diastolic:          {unit: mmHg,         min: 20,  max: 200, max_rate_per_min: 40}
+  blood_glucose:         {unit: mmol/L,       min: 2.2, max: 30,  max_rate_per_min: 2}
+  dizziness_self_report: {unit: scale_0_3,    min: 0,   max: 3,   max_rate_per_min: 3}
+  mood:                  {unit: scale_1_5,    min: 1,   max: 5,   max_rate_per_min: 4}
+  dose_rate:             {unit: uSv/h,        min: 0,   max: 1000000,  max_rate_per_min: 1000000}
+  cumulative_dose:       {unit: uSv,          min: 0,   max: 10000000, max_rate_per_min: 10000000}
+  neutron_dose_rate:     {unit: uSv/h,        min: 0,   max: 1000000,  max_rate_per_min: 1000000}
+
+# Cross-sensor expectations used by integrity check (e). DEMO_ONLY.
+cross_sensor:
+  # if activity_level is low, a very high heart_rate is suspicious (advisory only)
+  high_activity_threshold: 70
+  low_activity_threshold: 15
+  # a single untrusted source must NEVER cancel an alert from a trusted source.
+  never_suppress_trusted: true

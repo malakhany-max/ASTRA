@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "astra.plan.v1",
+  "title": "ASTRA Personalized Plan",
+  "type": "object",
+  "required": ["schema", "astronaut_id", "week", "exercise", "nutrition", "sleep", "wellbeing", "rationale"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "astra.plan.v1" },
+    "astronaut_id": { "type": "string" },
+    "week": { "type": "integer" },
+    "exercise": { "type": "array", "items": { "$ref": "#/$defs/planItem" } },
+    "nutrition": { "type": "array", "items": { "$ref": "#/$defs/planItem" } },
+    "sleep": { "type": "array", "items": { "$ref": "#/$defs/planItem" } },
+    "wellbeing": { "type": "array", "items": { "$ref": "#/$defs/planItem" } },
+    "rationale": { "type": "string" }
+  },
+  "$defs": {
+    "planItem": {
+      "type": "object",
+      "required": ["title", "notes"],
+      "properties": {
+        "title": { "type": "string" },
+        "duration_min": { "type": "integer" },
+        "frequency_per_week": { "type": "integer" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "astra.status.v1",
+  "title": "ASTRA Status (produced by the Engine)",
+  "type": "object",
+  "required": ["schema", "astronaut_id", "indicator", "status", "confidence", "reasons", "baseline_ref", "recommended_action", "decision_level", "computed_ts"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "astra.status.v1" },
+    "astronaut_id": { "type": "string" },
+    "indicator": { "type": "string" },
+    "status": { "type": "string", "enum": ["normal", "attention", "urgent"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "reasons": { "type": "array", "items": { "type": "string" } },
+    "baseline_ref": { "type": "string" },
+    "recommended_action": { "type": "string" },
+    "decision_level": { "type": "integer", "enum": [1, 2, 3] },
+    "computed_ts": { "type": "string", "format": "date-time" }
+  }
+}

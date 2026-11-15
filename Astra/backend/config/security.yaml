@@ -1,0 +1,57 @@
+# ASTRA Companion - security configuration.
+# Owner: Farah (security/, link/, attack_sim/).
+# NOTE: every numeric value here is DEMO_ONLY unless explicitly marked otherwise.
+#       replace from NASA/medical references / mission security policy before any real use.
+
+signature:
+  algorithm: ed25519
+  # base64 length of an Ed25519 signature (64 bytes)
+  sig_b64_len: 88
+
+freshness:
+  # The Earth link is delayed/intermittent and there is NO NTP offline.
+  # seq + nonce are the PRIMARY replay defence; the clock is only a SECONDARY signal.
+  # DEMO_ONLY: replace from mission security policy.
+  tolerance_seconds: 86400      # wide window; clock may drift for a long time offline
+  clock_jump_warn_seconds: 900  # >15 min jump => emit clock_anomaly (advisory, not fatal)
+  allow_future_seconds: 120     # small allowance for processing jitter
+
+nonce_cache:
+  # Bounded persistent anti-replay cache (SQLite).
+  max_entries: 200000           # DEMO_ONLY
+  ttl_seconds: 172800           # 48h; entries older than this are pruned
+
+seq:
+  # strict monotonicity per device_id; a small reorder allowance tolerates the
+  # intermittent link without turning normal jitter into a tamper event.
+  max_reorder: 0                # DEMO_ONLY: strictly increasing
+
+sensor_health:
+  window: 12                    # rolling window length (samples)
+  flatline_min_samples: 6       # DEMO_ONLY
+  stuck_min_samples: 6          # DEMO_ONLY
+  drift_min_samples: 8          # DEMO_ONLY
+  dropout_gap_factor: 4         # gap > factor * median_gap => dropout
+  noise_cv_threshold: 0.60      # DEMO_ONLY coefficient-of-variation ceiling
+
+security_events:
+  cooldown_seconds: 60          # correlate repeats within this window (alert fatigue)
+  # shield_state mapping
+  alert_severities: [high, critical]
+  degraded_severities: [medium]
+
+shield:
+  initial: ok
+
+rate_limit:
+  link_sim: "120/minute"        # slowapi limit for the Link Simulator
+  hub_ingest: "600/minute"
+
+limits:
+  max_message_bytes: 65536      # message-size cap enforced by the link
+  max_queue_entries: 10000      # bounded store-and-forward queue
+
+paths:
+  # Relative to repo root; all ignored by .gitignore (*.db, keys/, *.key).
+  keys_dir: keys
+  db_file: keys/astra_security.db

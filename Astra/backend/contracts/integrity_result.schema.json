@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "astra.integrity_result.v1",
+  "title": "ASTRA Integrity Result (Security SDK)",
+  "type": "object",
+  "required": ["classification", "reasons", "checks"],
+  "additionalProperties": false,
+  "properties": {
+    "classification": { "type": "string", "enum": ["trusted", "suspect_fault", "suspect_tamper"] },
+    "reasons": { "type": "array", "items": { "type": "string" } },
+    "checks": {
+      "type": "object",
+      "required": ["signature", "freshness", "plausibility", "sensor_health", "cross_sensor"],
+      "additionalProperties": false,
+      "properties": {
+        "signature": { "type": "boolean" },
+        "freshness": { "type": "boolean" },
+        "plausibility": { "type": "boolean" },
+        "sensor_health": { "type": "boolean" },
+        "cross_sensor": { "type": "boolean" }
+      }
+    }
+  }
+}

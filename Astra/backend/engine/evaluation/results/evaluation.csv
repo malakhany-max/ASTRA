@@ -1,0 +1,6 @@
+scenario,detection_lead_time_days,false_alarm_rate,fault_vs_change_accuracy,expected,observed
+normal,,0.0,,normal,normal
+sleep_degradation,,0.0,,attention,normal
+radiation_spike,0,0.0,,urgent,urgent
+gravity_transition,0,0.0,,attention,attention
+flatline_fault,,0.0,0.5,sensor_fault,sensor_fault

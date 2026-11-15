@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": ["vite/client", "node"],
+    "paths": {
+      "@astra/shared": ["../packages/shared/src/index.ts"],
+      "@astra/shared/styles": ["../packages/shared/src/styles.ts"],
+      "@astra/shared/mock": ["../packages/shared/src/mock/index.ts"],
+      "@contracts": ["../packages/contracts/src/index.ts"],
+      "@contracts/*": ["../packages/contracts/src/*"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}
